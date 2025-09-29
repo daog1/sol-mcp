@@ -76,7 +76,7 @@ See the original article for detailed examples: [Introduction to Solana Instruct
 
 ## Contributing
 
-Built by 晓道 (Xiaodao). Feedback and contributions welcome. Visit the author's profile or contact via Telegram: https://t.me/realDAO
+Built by 晓道 (Xiaodao). Feedback and contributions welcome.
 
 ## License
 

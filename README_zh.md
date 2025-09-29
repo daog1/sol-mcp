@@ -76,7 +76,7 @@
 
 ## 贡献
 
-由 晓道 (Xiaodao) 构建。欢迎反馈和贡献。访问作者资料或通过 Telegram 联系：https://t.me/realDAO
+由 晓道 (Xiaodao) 构建。欢迎反馈和贡献。
 
 ## 许可证
 
