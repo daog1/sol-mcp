@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project provides a Model Context Protocol (MCP) server for parsing and analyzing Solana blockchain instructions. It leverages IDL (Interface Definition Language) datasets from over 1,000 programs to decode transaction data, supporting formats like Anchor, Shank, and Codama. The MCP integrates with AI tools to enable deep-dive analysis of Solana transactions, including inner instructions and security assessments.
+This project provides a Model Context Protocol (MCP) server for parsing and analyzing Solana blockchain instructions. It leverages IDL (Interface Definition Language) datasets from over 1,000 programs to decode transaction data, supporting formats like Anchor, Shank, and Codama. The MCP integrates with AI tools to enable deep-dive analysis of Solana transactions.
 
 ## Features
 
@@ -12,7 +12,6 @@ This project provides a Model Context Protocol (MCP) server for parsing and anal
 - **Filtered Analysis**: Analyze transactions with optional filtering by program IDs.
 - **Program Subcalls Analysis**: Analyze all subcalls from specified programs in a transaction.
 - **Account Data Parsing**: Retrieve and parse account information based on account owner.
-- **Security Risk Assessment**: Provides insights into potential risks in instructions.
 - **Support for Multiple Formats**: Compatible with Anchor, Shank, and Codama IDLs.
 
 ## Main Functions
