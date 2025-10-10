@@ -94,7 +94,7 @@ See the original article for detailed examples: [Introduction to Solana Instruct
 
 ## Contributing
 
-Built by 晓道 (Xiaodao). Feedback and contributions welcome.
+Built by 晓道 (Xiaodao) and Bo Zhu. Feedback and contributions welcome.
 
 ## License
 
