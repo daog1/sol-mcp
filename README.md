@@ -10,15 +10,19 @@ This project provides a Model Context Protocol (MCP) server for parsing and anal
 - **Instruction Analysis**: Parse specific instructions within a transaction, identifying programs, functions, and parameters.
 - **Raw Data Parsing**: Decode instruction data from hex or base64 formats using program IDs.
 - **Filtered Analysis**: Analyze transactions with optional filtering by program IDs.
+- **Program Subcalls Analysis**: Analyze all subcalls from specified programs in a transaction.
+- **Account Data Parsing**: Retrieve and parse account information based on account owner.
 - **Security Risk Assessment**: Provides insights into potential risks in instructions.
 - **Support for Multiple Formats**: Compatible with Anchor, Shank, and Codama IDLs.
 
 ## Main Functions
 
-1. `get_solana_transaction`: Retrieves basic transaction information.
-2. `analyze_solana_instruction`: Deep-dive analysis of a specific instruction by index.
-3. `analyze_instruction_data`: Parses raw instruction data for a given program ID.
-4. `get_transaction_with_inner_instructions`: Hierarchical view of all instructions, including CPIs (Cross-Program Invocations).
+1. `get_solana_transaction`: Retrieve and comprehensively analyze a Solana transaction by signature. Returns detailed information including all instructions, account balance changes, transaction fees, and execution metadata.
+2. `analyze_solana_instruction`: Deep-dive analysis of a specific instruction within a Solana transaction. Parses the instruction data, identifies the program and function called, extracts parameters, and provides security risk assessment.
+3. `analyze_instruction_data`: Parse raw Solana instruction data to extract function names and parameters. Supports IDL-based parsing for known programs, with automatic fallback to generic instruction parsing for unknown programs.
+4. `get_transaction_with_inner_instructions`: Retrieve a Solana transaction and recursively parse all inner instructions (CPIs). Returns a hierarchical view of instruction execution with optional filtering by specific program IDs.
+5. `get_program_subcalls`: Analyze all subcalls from specified programs in a transaction. Processes both top-level instructions from message.compiledInstructions and nested calls from tx.meta?.innerInstructions.
+6. `get_account_data_with_parsing`: Retrieve Solana account information and parse it based on the account owner. Automatically detects account type and provides program-specific analysis for different Solana programs.
 
 ## Usage
 
@@ -64,11 +68,25 @@ No local installation required. Access via the provided URL. For integration wit
   - `idl_file`: Optional IDL file name
 
 ### get_transaction_with_inner_instructions
-- **Description**: Retrieve transaction with recursive inner instruction parsing.
+- **Description**: Retrieve a Solana transaction and recursively parse all inner instructions (CPIs). Returns a hierarchical view of instruction execution with optional filtering by specific program IDs.
 - **Parameters**:
-  - `signature`: Transaction signature
-  - `filter_program_ids`: Optional array of program IDs to filter
-  - `rpc_endpoint`: Optional RPC endpoint
+  - `signature`: Transaction signature (base58-encoded string, 88 characters)
+  - `filter_program_ids`: Optional array of program IDs to filter results - only instructions calling these programs will be included
+  - `rpc_endpoint`: Optional Solana RPC endpoint URL (defaults to mainnet-beta if not specified)
+
+### get_program_subcalls
+- **Description**: Analyze all subcalls from specified programs in a transaction. Processes both top-level instructions from message.compiledInstructions and nested calls from tx.meta?.innerInstructions.
+- **Parameters**:
+  - `signature`: Transaction signature (base58-encoded string, 88 characters)
+  - `program_ids`: Array of program IDs to filter subcalls by
+  - `include_nested`: Optional boolean to include nested subcalls from innerInstructions (default: true)
+  - `rpc_endpoint`: Optional Solana RPC endpoint URL (defaults to mainnet-beta if not specified)
+
+### get_account_data_with_parsing
+- **Description**: Retrieve Solana account information and parse it based on the account owner. Automatically detects account type and provides program-specific analysis for different Solana programs.
+- **Parameters**:
+  - `account`: Account public key (base58-encoded string)
+  - `rpc_endpoint`: Optional Solana RPC endpoint URL (defaults to mainnet-beta if not specified)
 
 ## Examples
 

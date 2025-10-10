@@ -10,15 +10,19 @@
 - **指令分析**：解析交易中的特定指令，识别程序、函数和参数。
 - **原始数据解析**：使用程序 ID 从十六进制或 base64 格式解码指令数据。
 - **过滤分析**：可选按程序 ID 过滤分析交易。
+- **程序子调用分析**：分析交易中指定程序的所有子调用。
+- **账户数据解析**：检索并基于账户所有者解析账户信息。
 - **安全风险评估**：提供指令中潜在风险的见解。
 - **多格式支持**：兼容 Anchor、Shank 和 Codama IDL。
 
 ## 主要功能
 
-1. `get_solana_transaction`：检索基本交易信息。
-2. `analyze_solana_instruction`：按索引深入分析特定指令。
-3. `analyze_instruction_data`：解析给定程序 ID 的原始指令数据。
-4. `get_transaction_with_inner_instructions`：层次视图显示所有指令，包括 CPI（跨程序调用）。
+1. `get_solana_transaction`：通过签名检索和全面分析 Solana 交易。返回详细的信息，包括所有指令、账户余额变化、交易费用和执行元数据。
+2. `analyze_solana_instruction`：深入分析 Solana 交易中的特定指令。解析指令数据，识别调用的程序和函数，提取参数，并提供安全风险评估。
+3. `analyze_instruction_data`：解析原始 Solana 指令数据以提取函数名称和参数。支持已知程序的 IDL 解析，对未知程序自动回退到通用指令解析。
+4. `get_transaction_with_inner_instructions`：检索 Solana 交易并递归解析所有内部指令 (CPI)。返回指令执行的层次视图，可选择按特定程序 ID 过滤。
+5. `get_program_subcalls`：分析交易中指定程序的所有子调用。处理来自 message.compiledInstructions 的顶级指令和来自 tx.meta?.innerInstructions 的嵌套调用。
+6. `get_account_data_with_parsing`：检索 Solana 账户信息并基于账户所有者解析。自动检测账户类型并为不同 Solana 程序提供程序特定分析。
 
 ## 使用方法
 
@@ -64,11 +68,25 @@
   - `idl_file`：可选 IDL 文件名
 
 ### get_transaction_with_inner_instructions
-- **描述**：检索包含递归内部指令解析的交易。
+- **描述**：检索 Solana 交易并递归解析所有内部指令 (CPI)。返回指令执行的层次视图，可选择按特定程序 ID 过滤。
 - **参数**：
-  - `signature`：交易签名
-  - `filter_program_ids`：可选程序 ID 数组用于过滤
-  - `rpc_endpoint`：可选 RPC 端点
+  - `signature`：交易签名（base58 编码字符串，88 字符）
+  - `filter_program_ids`：可选程序 ID 数组用于过滤结果 - 仅包括调用这些程序的指令
+  - `rpc_endpoint`：可选 Solana RPC 端点 URL（如果未指定，默认为 mainnet-beta）
+
+### get_program_subcalls
+- **描述**：分析交易中指定程序的所有子调用。处理来自 message.compiledInstructions 的顶级指令和来自 tx.meta?.innerInstructions 的嵌套调用。
+- **参数**：
+  - `signature`：交易签名（base58 编码字符串，88 字符）
+  - `program_ids`：用于过滤子调用的程序 ID 数组
+  - `include_nested`：可选布尔值以包含来自 innerInstructions 的嵌套子调用（默认：true）
+  - `rpc_endpoint`：可选 Solana RPC 端点 URL（如果未指定，默认为 mainnet-beta）
+
+### get_account_data_with_parsing
+- **描述**：检索 Solana 账户信息并基于账户所有者解析。自动检测账户类型并为不同 Solana 程序提供程序特定分析。
+- **参数**：
+  - `account`：账户公钥（base58 编码字符串）
+  - `rpc_endpoint`：可选 Solana RPC 端点 URL（如果未指定，默认为 mainnet-beta）
 
 ## 示例
 
