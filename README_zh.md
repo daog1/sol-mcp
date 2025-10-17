@@ -22,6 +22,8 @@
 4. `get_transaction_with_inner_instructions`：检索 Solana 交易并递归解析所有内部指令 (CPI)。返回指令执行的层次视图，可选择按特定程序 ID 过滤。
 5. `get_program_subcalls`：分析交易中指定程序的所有子调用。处理来自 message.compiledInstructions 的顶级指令和来自 tx.meta?.innerInstructions 的嵌套调用。
 6. `get_account_data_with_parsing`：检索 Solana 账户信息并基于账户所有者解析。自动检测账户类型并为不同 Solana 程序提供程序特定分析。
+7. `get_account_data_with_name_parsing`：检索 Solana 账户信息并基于指定账户名称解析。允许使用程序 IDL 中的特定账户类型解析账户数据。
+8. `get_account_node_names_by_program`：获取给定程序 ID 的账户节点名称列表。返回程序 IDL 中定义的账户名称和类型。
 
 ## 使用方法
 
@@ -80,6 +82,19 @@
   - `program_ids`：用于过滤子调用的程序 ID 数组
   - `include_nested`：可选布尔值以包含来自 innerInstructions 的嵌套子调用（默认：true）
   - `rpc_endpoint`：可选 Solana RPC 端点 URL（如果未指定，默认为 mainnet-beta）
+
+### get_account_data_with_name_parsing
+- **描述**：检索 Solana 账户信息并基于指定账户名称解析。允许使用程序 IDL 中的特定账户类型解析账户数据。
+- **参数**：
+  - `account`：账户公钥（base58 编码字符串）
+  - `account_name`：可选账户名称（如 "TokenAccount"、"Mint" 等）
+  - `rpc_endpoint`：可选 Solana RPC 端点 URL（如果未指定，默认为 mainnet-beta）
+
+### get_account_node_names_by_program
+- **描述**：获取给定程序 ID 的账户节点名称列表。返回程序 IDL 中定义的账户名称和类型。
+- **参数**：
+  - `program_id`：程序 ID（公钥）
+  - `idl_file`：可选 IDL 文件名
 
 ### get_account_data_with_parsing
 - **描述**：检索 Solana 账户信息并基于账户所有者解析。自动检测账户类型并为不同 Solana 程序提供程序特定分析。

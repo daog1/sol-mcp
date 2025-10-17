@@ -22,6 +22,8 @@ This project provides a Model Context Protocol (MCP) server for parsing and anal
 4. `get_transaction_with_inner_instructions`: Retrieve a Solana transaction and recursively parse all inner instructions (CPIs). Returns a hierarchical view of instruction execution with optional filtering by specific program IDs.
 5. `get_program_subcalls`: Analyze all subcalls from specified programs in a transaction. Processes both top-level instructions from message.compiledInstructions and nested calls from tx.meta?.innerInstructions.
 6. `get_account_data_with_parsing`: Retrieve Solana account information and parse it based on the account owner. Automatically detects account type and provides program-specific analysis for different Solana programs.
+7. `get_account_data_with_name_parsing`: Retrieve Solana account information and parse it based on a specific account name. Allows parsing account data using a specified account type from the program's IDL.
+8. `get_account_node_names_by_program`: Get a list of account node names for a given program ID. Returns the names and types of accounts defined in the program's IDL.
 
 ## Usage
 
@@ -80,6 +82,19 @@ No local installation required. Access via the provided URL. For integration wit
   - `program_ids`: Array of program IDs to filter subcalls by
   - `include_nested`: Optional boolean to include nested subcalls from innerInstructions (default: true)
   - `rpc_endpoint`: Optional Solana RPC endpoint URL (defaults to mainnet-beta if not specified)
+
+### get_account_data_with_name_parsing
+- **Description**: Retrieve Solana account information and parse it based on a specific account name. Allows parsing account data using a specified account type from the program's IDL.
+- **Parameters**:
+  - `account`: Account public key (base58-encoded string)
+  - `account_name`: Optional account name (e.g., "TokenAccount", "Mint", etc.)
+  - `rpc_endpoint`: Optional Solana RPC endpoint URL (defaults to mainnet-beta if not specified)
+
+### get_account_node_names_by_program
+- **Description**: Get a list of account node names for a given program ID. Returns the names and types of accounts defined in the program's IDL.
+- **Parameters**:
+  - `program_id`: The program ID (public key)
+  - `idl_file`: Optional IDL file name
 
 ### get_account_data_with_parsing
 - **Description**: Retrieve Solana account information and parse it based on the account owner. Automatically detects account type and provides program-specific analysis for different Solana programs.
